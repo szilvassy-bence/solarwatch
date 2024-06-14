@@ -1,0 +1,6 @@
+@solar_watch_backend_HostAddress = http://localhost:5285
+
+GET {{solar_watch_backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
