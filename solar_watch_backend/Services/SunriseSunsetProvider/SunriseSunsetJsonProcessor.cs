@@ -9,15 +9,28 @@ public class SunriseSunsetJsonProcessor : ISunriseSunsetJsonProcessor
 {
     public SunriseSunset Process(string json, DateTime date)
     {
-        var jd = JsonDocument.Parse(json);
-        var root = jd.RootElement;
-        var result = root.GetProperty("results");
-        var sunrise = result.GetProperty("sunrise");
-        var sunset = result.GetProperty("sunset");
-        Console.WriteLine(sunset.ToString());
-        var sunriseDate = ConvertToDateTime(sunrise.ToString(), date);
-        var sunsetDate = ConvertToDateTime(sunset.ToString(), date);
-        return new SunriseSunset { Sunrise = sunriseDate, Sunset = sunsetDate };
+        if (string.IsNullOrEmpty(json))
+        {
+            throw new ArgumentException("Input json data cannot be empty.");
+        }
+
+        try
+        {
+            var jd = JsonDocument.Parse(json);
+            var root = jd.RootElement;
+            var result = root.GetProperty("results");
+            var sunrise = result.GetProperty("sunrise");
+            var sunset = result.GetProperty("sunset");
+            Console.WriteLine(sunset.ToString());
+            var sunriseDate = ConvertToDateTime(sunrise.ToString(), date);
+            var sunsetDate = ConvertToDateTime(sunset.ToString(), date);
+            return new SunriseSunset { Sunrise = sunriseDate, Sunset = sunsetDate };
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     private DateTime ConvertToDateTime(string time, DateTime date)
