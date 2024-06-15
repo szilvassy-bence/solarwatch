@@ -1,0 +1,27 @@
+version: '3'
+services:
+  backend:
+    build:
+      context: ./solar_watch_backend
+    container_name: sw_backend_container
+    depends_on: 
+      - db
+    ports:
+      - "6000:80"
+    environment:
+      - SW_DB_HOST=db,1433
+    env_file:
+      - ./solar_watch_backend/.env
+  db:
+    image: mcr.microsoft.com/mssql/server
+    restart: always
+    container_name: sw_db_container
+    volumes:
+      - mssql_data:/var/opt/mssql
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${SQL_PASSWORD}
+    ports:
+      - "1433:1433"
+volumes:
+  mssql_data:
