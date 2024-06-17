@@ -25,7 +25,6 @@ public class SolarWatchControllerTest
     public async Task GetCityReturnsNotFoundIfRepositoryFails()
     {
         // Arrange
-        var city = "{}";
         _repositoryMock.Setup(x => x.GetCityByName(It.IsAny<string>())).ThrowsAsync(new Exception());
         
         // Act
