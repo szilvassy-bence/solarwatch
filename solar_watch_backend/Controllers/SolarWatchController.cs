@@ -46,11 +46,11 @@ public class SolarWatchController : ControllerBase
     }
 
     
-    public async Task<ActionResult<IEnumerable<City>>> SearchCities(string searchTerm)
+    /*public async Task<ActionResult<IEnumerable<City>>> SearchCities(string searchTerm)
     {
         var cities = await _repository.SearchCities(searchTerm);
         return Ok(cities);
-    }
+    }*/
     
     
     [HttpDelete("DeleteCity/{id}")]

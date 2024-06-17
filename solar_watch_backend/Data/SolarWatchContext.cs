@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using solar_watch_backend.Models;
 
 namespace solar_watch_backend.Data;
 
-public class SolarWatchContext : DbContext
+public class SolarWatchContext : IdentityDbContext<IdentityUser, IdentityRole, string>
 {
     public SolarWatchContext(DbContextOptions<SolarWatchContext> options) : base(options)
     {
@@ -16,6 +17,8 @@ public class SolarWatchContext : DbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+        
         modelBuilder.Entity<City>()
             .HasIndex(c => c.Name)
             .IsUnique();
