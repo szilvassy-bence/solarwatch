@@ -3,7 +3,7 @@
 
 using System.Text;
 using System.Text.Json.Serialization;
-//using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using solar_watch_backend.Data;
 using solar_watch_backend.Services;
+using solar_watch_backend.Services.Authentication;
 using solar_watch_backend.Services.LatLngProvider;
 using solar_watch_backend.Services.Repositories;
 using solar_watch_backend.Services.SunriseSunsetProvider;
@@ -20,7 +21,8 @@ var builder = WebApplication.CreateBuilder(args);
 AddEnvironmentVariables();
 AddServices();
 AddDbContext();
-//AddIdentity();
+AddAuthentication();
+AddIdentity();
 ConfigureSwagger();
 
 var app = builder.Build();
@@ -40,11 +42,10 @@ using (var dbScope = app.Services.CreateScope())
     }
 }
 
-/*
-using var scope = app.Services.CreateScope();
-var authenticationSeeder = scope.ServiceProvider.GetRequiredService<AuthenticationSeeder>();
+using var authSeederScope = app.Services.CreateScope();
+var authenticationSeeder = authSeederScope.ServiceProvider.GetRequiredService<AuthSeeder>();
 authenticationSeeder.AddRoles();
-authenticationSeeder.AddAdmin();*/
+authenticationSeeder.AddAdmin();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -56,8 +57,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-/*app.UseAuthentication();
-app.UseAuthorization();*/
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 
@@ -72,10 +73,12 @@ void AddServices()
     builder.Services.AddScoped<ILatLngProvider, LatLngProvider>();
     builder.Services.AddScoped<ILatLngJsonProcessor, LatLngJsonProcessor>();
     builder.Services.AddScoped<ISolarWatchRepository, SolarWatchRepository>();
-    // builder.Services.AddScoped<IUserRepository, UserRepository>();
+    builder.Services.AddScoped<IUserRepository, UserRepository>();
     builder.Services.AddScoped<ISunriseSunsetJsonProcessor, SunriseSunsetJsonProcessor>();
     builder.Services.AddScoped<ISunriseSunsetDataProvider, SunriseSunsetDataProvider>();
-    
+    builder.Services.AddScoped<IAuthService, AuthService>();
+    builder.Services.AddScoped<ITokenService, TokenService>();
+    builder.Services.AddScoped<AuthSeeder>();
 }
 
 void ConfigureSwagger()
@@ -111,10 +114,6 @@ void ConfigureSwagger()
 
 void AddDbContext()
 {
-    /*var conStrBuilder = new SqlConnectionStringBuilder(builder.Configuration.GetConnectionString("SolarWatch"));
-    conStrBuilder.Password = Environment.GetEnvironmentVariable("SQL_PASSWORD");
-    conStrBuilder.DataSource = Environment.GetEnvironmentVariable("SW_DB_HOST") ?? "localhost,1433";*/
-    
     var connectionString = builder.Configuration.GetConnectionString("SolarWatch");
     var sqlPassword = Environment.GetEnvironmentVariable("SQL_PASSWORD");
     var sqlServerHost = Environment.GetEnvironmentVariable("SW_DB_HOST") ?? "localhost,1433";
@@ -143,7 +142,7 @@ void AddDbContext()
         options.UseSqlServer(connection));
 }
 
-/*void AddIdentity()
+void AddIdentity()
 {
     builder.Services
         .AddIdentityCore<IdentityUser>(options =>
@@ -156,16 +155,42 @@ void AddDbContext()
             options.Password.RequireUppercase = false;
             options.Password.RequireLowercase = false;
         })
-        //.AddRoles<IdentityRole>()
+        .AddRoles<IdentityRole>()
         .AddEntityFrameworkStores<SolarWatchContext>();
-}*/
+}
 
+void AddAuthentication()
+{
+    var issuerSigningKey = Environment.GetEnvironmentVariable("ISSUER_SIGNING_KEY");
 
+    if (string.IsNullOrEmpty(issuerSigningKey))
+    {
+        throw new InvalidOperationException("Environment variable 'ISSUER_SIGNING_KEY' not set.");
+    }
+    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ClockSkew = TimeSpan.Zero,
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = builder.Configuration["TokenValidation:ValidIssuer"],
+                ValidAudience = builder.Configuration["TokenValidation:ValidAudience"],
+                IssuerSigningKey =
+                    new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(issuerSigningKey))
+            };
+        });
+}
 
 void AddEnvironmentVariables()
 {
     var root = Directory.GetCurrentDirectory();
     var dotenv = Path.Combine(root, ".env");
+    Console.WriteLine(dotenv);
     DotEnv.Load(dotenv);
 
     var config = new ConfigurationBuilder()
