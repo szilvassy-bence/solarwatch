@@ -38,11 +38,11 @@ public class UserRepository : IUserRepository
         throw new NotImplementedException();
     }
 
-    public async Task<IdentityUser?> GetByName(string userName)
+    public async Task<User?> GetByName(string userName)
     {
         try
         {
-            var user = await _userManager.FindByNameAsync(userName);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
             if (user is null)
             {
                 throw (new NullReferenceException($"User with name {userName} is not registered."));

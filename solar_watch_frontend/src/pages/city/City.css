@@ -1,0 +1,110 @@
+#city-nav {
+    display: flex;
+    justify-content: right;
+    padding: 20px;
+    padding-bottom: 0px;
+    margin-top: 10px;
+    margin-left: auto;
+    background-color: cadetblue;
+    border-radius: 10px 10px 0 0;
+    gap: 10px;
+}
+
+#city-nav button {
+    border-radius: 10px 10px 0 0;
+}
+
+#city-nav button:hover {
+    border-style: solid;
+    border-color: midnightblue;
+    border-width: 2px 1px 0 1px;
+}
+
+#city-content {
+    display: flex;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-top: solid 2px cadetblue;
+}
+
+#city-detail {
+    flex: 1;
+}
+
+#city-detail > h1 {
+    margin-top: 20px;
+}
+
+
+#sun-detail-wrapper {
+    flex: 1;
+}
+
+#sun-detail-wrapper > h2 {
+    margin-top: 20px;
+}
+
+.sun-detail-div {
+    position: relative;
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 15px;
+}
+
+.sun-detail-div h3 {
+    margin-top: 10px;
+}
+
+.active {
+    background-color: midnightblue;
+    color: white;
+}
+
+.svg-suninfo-delete {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+@media screen and (max-width: 720px) {
+    #city-content {
+        display: block;
+    }
+}
+
+.pop-up-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid cadetblue;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: aliceblue;
+}
+
+.pop-up-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.pop-up-content > :first-child {
+    align-self: end;
+    cursor: pointer;
+}
+
+.pop-up-content > :last-child {
+    align-self: end
+}
+
+#confirm-delete-button-con > :first-child {
+    margin-right: 10px;
+}
+
+#confirm-delete-button-con > button {
+    background-color: cadetblue;
+}
+
+#confirm-delete-button-con > button:hover {
+    border: 1px solid midnightblue;
+}

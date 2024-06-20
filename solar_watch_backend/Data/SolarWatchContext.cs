@@ -40,6 +40,24 @@ public class SolarWatchContext : IdentityDbContext<IdentityUser, IdentityRole, s
                 }
             );
 
-        //modelBuilder.Entity<City>().HasMany<SunInfo>().WithMany();
+
+        modelBuilder.Entity<User>()
+            .HasData(
+                new User
+                {
+                    Id = 1,
+                    Email = "b@b",
+                    UserName = "bence"
+                }, new User
+                {
+                    Id = 2,
+                    Email = "c@c",
+                    UserName = "csilla"
+                }, new User
+                {
+                    Id = 3,
+                    Email = "a@a",
+                    UserName = "arwen"
+                });
     }
 }

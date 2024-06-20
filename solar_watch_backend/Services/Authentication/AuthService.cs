@@ -1,5 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using solar_watch_backend.Data;
+using solar_watch_backend.Models;
 
 namespace solar_watch_backend.Services.Authentication;
 
@@ -7,11 +9,15 @@ public class AuthService : IAuthService
 {
     private readonly ITokenService _tokenService;
     private readonly UserManager<IdentityUser> _userManager;
+    private readonly ILogger<AuthService> _logger;
+    private readonly SolarWatchContext _context;
 
-    public AuthService(UserManager<IdentityUser> userManager, ITokenService tokenService)
+    public AuthService(UserManager<IdentityUser> userManager, ITokenService tokenService, ILogger<AuthService> logger, SolarWatchContext context)
     {
         _userManager = userManager;
         _tokenService = tokenService;
+        _logger = logger;
+        _context = context;
     }
 
     public async Task<AuthResult> RegisterAsync(string email, string username, string password, string role)
@@ -20,9 +26,15 @@ public class AuthService : IAuthService
         {
             var user = new IdentityUser { UserName = username, Email = email };
             var result = await _userManager.CreateAsync(user, password);
-            if (!result.Succeeded) return FailedRegistration(result, email, username);
+            if (!result.Succeeded)
+            {
+                _logger.LogError(1, password, "error during registration");
+                return FailedRegistration(result, email, username);
+            }
 
             await _userManager.AddToRoleAsync(user, role);
+            var identityUser = await _userManager.FindByEmailAsync(email);
+            _context.Users.Add(new User { IdentityUser = identityUser, Email = email, UserName = username });
             return new AuthResult(true, email, username, "");
         }
         catch (Exception e)

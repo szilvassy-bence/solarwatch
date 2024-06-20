@@ -17,9 +17,10 @@ public class SolarWatchRepository : ISolarWatchRepository
     private readonly ILatLngProvider _latLngProvider;
     private readonly ISunriseSunsetJsonProcessor _sunriseSunsetJsonProcessor;
     private readonly ISunriseSunsetDataProvider _sunriseSunsetProvider;
+    private readonly ILogger<SolarWatchRepository> _logger;
 
 
-    public SolarWatchRepository(ILatLngProvider provider, ILatLngJsonProcessor processor, SolarWatchContext context,
+    public SolarWatchRepository(ILogger<SolarWatchRepository> logger, ILatLngProvider provider, ILatLngJsonProcessor processor, SolarWatchContext context,
         ISunriseSunsetJsonProcessor sunriseSunsetJsonProcessor, ISunriseSunsetDataProvider sunriseSunsetProvider)
     {
         _latLngProvider = provider;
@@ -27,13 +28,15 @@ public class SolarWatchRepository : ISolarWatchRepository
         _context = context;
         _sunriseSunsetJsonProcessor = sunriseSunsetJsonProcessor;
         _sunriseSunsetProvider = sunriseSunsetProvider;
+        _logger = logger;
     }
 
     public async Task<IEnumerable<City>> GetAllCities()
     {
-        return await _context.Cities
+        var cities =await _context.Cities
             .Include(x => x.SunriseSunsets)
             .ToListAsync();
+        return cities;
     }
 
     public async Task<City> GetCityByName(string city)

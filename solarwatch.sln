@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "solar_watch_backend", "sola
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "unit_tests", "unit_tests\unit_tests.csproj", "{755CB0D0-3E41-449E-9B35-8E2BF842593F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solar_watch_frontend", "solar_watch_frontend", "{186050EA-DDA9-4A55-856E-225679B2538C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

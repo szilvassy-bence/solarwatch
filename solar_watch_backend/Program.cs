@@ -42,10 +42,12 @@ using (var dbScope = app.Services.CreateScope())
     }
 }
 
-using var authSeederScope = app.Services.CreateScope();
-var authenticationSeeder = authSeederScope.ServiceProvider.GetRequiredService<AuthSeeder>();
-authenticationSeeder.AddRoles();
-authenticationSeeder.AddAdmin();
+using (var authSeederScope = app.Services.CreateScope())
+{
+    var authenticationSeeder = authSeederScope.ServiceProvider.GetRequiredService<AuthSeeder>();
+    authenticationSeeder.AddRoles();
+    authenticationSeeder.AddAdmin();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -79,6 +81,7 @@ void AddServices()
     builder.Services.AddScoped<IAuthService, AuthService>();
     builder.Services.AddScoped<ITokenService, TokenService>();
     builder.Services.AddScoped<AuthSeeder>();
+
 }
 
 void ConfigureSwagger()

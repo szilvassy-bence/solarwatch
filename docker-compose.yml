@@ -3,6 +3,7 @@ services:
   backend:
     build:
       context: ./solar_watch_backend
+    image: sw_backend_img
     container_name: sw_backend_container
     depends_on: 
       - db
@@ -12,6 +13,17 @@ services:
       - SW_DB_HOST=db,1433
     env_file:
       - ./solar_watch_backend/.env
+
+  frontend:
+    build:
+      context: ./solar_watch_frontend
+    image: sw_frontend_img
+    container_name: sw_frontend_container
+    environment:
+      - EXAMPLE_BACKEND_URL=http://backend:80
+    ports:
+      - "5173:5173"
+
   db:
     image: mcr.microsoft.com/mssql/server
     restart: always

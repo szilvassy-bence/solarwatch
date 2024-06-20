@@ -1,11 +1,11 @@
-namespace solar_watch_backend.Controllers;
-
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using solar_watch_backend.Models;
 using solar_watch_backend.Models.Contracts;
 using solar_watch_backend.Services.Repositories;
 
+namespace solar_watch_backend.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -18,8 +18,8 @@ public class UserController : ControllerBase
         _userRepository = userRepository;
     }
 
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<IdentityUser>>> GetAll()
+    [HttpGet("GetAll")]
+    public async Task<ActionResult<IEnumerable<User>>> GetAll()
     {
         try
         {
@@ -33,7 +33,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("/name/{userName}")]
-    public async Task<ActionResult<IdentityUser>> GetUserByName(string userName)
+    public async Task<ActionResult<User?>> GetUserByName(string userName)
     {
         try
         {

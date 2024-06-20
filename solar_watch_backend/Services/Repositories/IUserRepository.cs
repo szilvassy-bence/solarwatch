@@ -11,7 +11,7 @@ public interface IUserRepository
 {
     Task<IEnumerable<User>> GetAll();
     Task<IdentityUser> GetById();
-    Task<IdentityUser> GetByName(string userName);
+    Task<User?> GetByName(string userName);
     Task<IdentityUser> GetByEmail(string email);
     Task<UserDataChange> UpdateById(string id, UserDataChange userDataChange);
     Task DeleteUserById(string id);
