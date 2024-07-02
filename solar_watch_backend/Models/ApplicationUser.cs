@@ -2,13 +2,13 @@ using Microsoft.AspNetCore.Identity;
 
 namespace solar_watch_backend.Models;
 
-public class User
+public class ApplicationUser
 {
     public int Id { get; init; }
     
+    public string IdentityUserId { get; set; }
     public IdentityUser IdentityUser { get; set; }
-    
-    public string Email { get; set; }
-    
-    public string UserName { get; set; }
+
+    public ICollection<City> FavoriteCities { get; set; } = new List<City>();
+
 }
