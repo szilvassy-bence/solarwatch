@@ -5,11 +5,34 @@ import Header from "../header";
 import {useLocalStorage} from "../../hooks/useLocalStorage.jsx";
 
 export const AuthContext = createContext(null);
+export const FavoriteContext = createContext(null);
 
 export default function Root() {
 
     const [user, setUser] = useLocalStorage("user", null);
+    const [favorites, setFavorites] = useState([]);
     const navigate = useNavigate();
+
+    useEffect(() =>{
+        async function fetchFavorites(){
+            try {
+                const response = await fetch("/api/User/favorites", {
+                    method: 'GET',
+                    headers: { "Content-Type": "application/json",
+                    "Authorization": `Bearer ${user.token}`
+            }},);
+                if (response.status === 200){
+                    const data = await response.json();
+                    setFavorites(data);
+                    console.log(data);
+                }
+            } catch(err) {
+                console.error(err);
+            }
+        }
+        if (user != null)
+        {fetchFavorites()}
+    }, [user])
 
     const login = async (data) => {
         try {
@@ -47,10 +70,12 @@ export default function Root() {
 
     return (
         <AuthContext.Provider value={value}>
-            <Header/>
-            <div id="detail">
-                <Outlet/>
-            </div>
+            <FavoriteContext.Provider value={[favorites, setFavorites]}>
+                <Header/>
+                <div id="detail">
+                    <Outlet/>
+                </div>
+            </FavoriteContext.Provider>
         </AuthContext.Provider>
     )
 }
