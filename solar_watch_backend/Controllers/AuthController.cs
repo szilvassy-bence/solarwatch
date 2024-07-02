@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using solar_watch_backend.Data;
 using solar_watch_backend.Models.Contracts;
 using solar_watch_backend.Services.Authentication;
 
@@ -11,7 +12,7 @@ public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
 
-    public AuthController(IAuthService authService)
+    public AuthController(IAuthService authService, SolarWatchContext context)
     {
         _authService = authService;
     }
@@ -21,7 +22,7 @@ public class AuthController : ControllerBase
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        var result = await _authService.RegisterAsync(request.Email, request.UserName, request.Password, "User");
+        var result = await _authService.RegisterAsync(request.Email, request.UserName, request.Password, "ApplicationUser");
         if (!result.Success)
         {
             AddErrors(result);

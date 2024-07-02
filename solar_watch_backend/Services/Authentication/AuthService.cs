@@ -34,7 +34,11 @@ public class AuthService : IAuthService
 
             await _userManager.AddToRoleAsync(user, role);
             var identityUser = await _userManager.FindByEmailAsync(email);
-            _context.Users.Add(new User { IdentityUser = identityUser, Email = email, UserName = username });
+            if (identityUser != null)
+            {
+                _context.ApplicationUsers.Add(new ApplicationUser { IdentityUserId = identityUser.Id });
+                await _context.SaveChangesAsync();
+            }
             return new AuthResult(true, email, username, "");
         }
         catch (Exception e)
