@@ -1,7 +1,10 @@
 .card {
 	border: 1px solid cadetblue;
 	border-radius: 10px;
-	padding: 20px
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 }
 
 .card ul{
@@ -11,4 +14,8 @@
 .card li{
 	list-style: none;
 	font-size: small;
+}
+
+.card-body h3 {
+	cursor: pointer;
 }

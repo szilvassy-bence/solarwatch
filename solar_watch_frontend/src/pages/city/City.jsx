@@ -5,9 +5,10 @@ import * as service from "./service";
 
 export default function City() {
   const loader = useLoaderData();
-  const [sunInfos, setSunInfos] = useState(() => {
+  const [sunriseSunsets, setSunriseSunsets] = useState(() => {
     if (loader.hasOwnProperty("city")) {
-      return loader.city.sunInfos;
+      console.log(loader);
+      return loader.city.sunriseSunsets;
     } else {
       return [];
     }
@@ -28,7 +29,7 @@ export default function City() {
 
   const confirmDeleteCity = async () => {
     try {
-      const res = await fetch(`/api/SolarWatch/DeleteCity/${loader.city.id}`, {
+      const res = await fetch(`/api/SolarWatch/cities/${loader.city.id}/delete`, {
         method: "DELETE",
       });
       if (res.status === 204) {
@@ -50,14 +51,14 @@ export default function City() {
   const deleteSunInfo = async (e) => {
     try {
       const res = await fetch(
-        `/api/SolarWatch/SunInfo/${e.target.closest("svg").id}/Delete`,
+        `/api/SolarWatch/sunrisesunsets/${e.target.closest("svg").id}/Delete`,
         {
           method: "DELETE",
         }
       );
       if (res.status === 204) {
-        const filtered = sunInfos.filter(x => x.id !== Number(e.target.closest("svg").id));
-        setSunInfos(filtered);
+        const filtered = sunriseSunsets.filter(x => x.id !== Number(e.target.closest("svg").id));
+        setSunriseSunsets(filtered);
     }
     } catch (error) {
       console.log(error);
@@ -66,18 +67,18 @@ export default function City() {
 
   const submitNewDate = async (e) => {
     e.preventDefault();
-    if (sunInfos && sunInfos.some(sunInfo => sunInfo.day === date)){
+    if (sunriseSunsets && sunriseSunsets.some(sunInfo => sunInfo.day === date)){
         setSunInfoExist(true);
         return;
     }
     try {
-        const res = await fetch(`/api/SolarWatch/GetSunInfo/${loader.city.name}/${date}`);
+        const res = await fetch(`/api/SolarWatch/sunrisesunsets/${loader.city.name}/${date}`);
         if (res.status === 200) {
             const sunInfo = await res.json();
-            if (!sunInfos){
-              setSunInfos([sunInfo]);
+            if (!sunriseSunsets){
+              setSunriseSunsets([sunInfo]);
             } else{
-              setSunInfos(prevSunInfos => [...prevSunInfos, sunInfo]);
+              setSunriseSunsets(prevSunriseSunsets => [...prevSunriseSunsets, sunInfo]);
             }
             setDate(service.getTodayDate());
             setSunInfoExist(false);
@@ -114,8 +115,8 @@ export default function City() {
             </div>
             <div id="sun-detail-wrapper">
               <h2>Sun information</h2>
-              {sunInfos && sunInfos.length > 0 ? (
-                sunInfos.map((x) => (
+              {sunriseSunsets && sunriseSunsets.length > 0 ? (
+                sunriseSunsets.map((x) => (
                   <div key={x.id} className="sun-detail-div">
                     <h3>{x.day}</h3>
                     <p>{x.sunrise}</p>

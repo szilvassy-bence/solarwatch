@@ -130,6 +130,10 @@ button#mobile-menu-btn{
     display: none;
 }
 
+#register {
+    margin-top: 20px;
+}
+
 @media screen and (max-width: 600px) {
 
     #navigation {

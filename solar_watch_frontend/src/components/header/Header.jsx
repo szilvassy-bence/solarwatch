@@ -262,6 +262,7 @@ export default function Header() {
                         Login
                       </button>
                     </form>
+                    <Link id="register" to="/register" >Register</Link>
                     {headerIsLoginSuccessful === false && (
                       <div>
                         <p>Login is not successful, try again!</p>
@@ -271,11 +272,10 @@ export default function Header() {
                 ) : (
                   <>
                     <h4>Welcome, {user.userName}</h4>
-                    <ul>
-                      <li>Account</li>
-                      <li>Change password</li>
-                      <li onClick={handleLogout}>Logout</li>
-                    </ul>
+                    
+                      <Link to="/profile">Account</Link>
+                      <br/>
+                      <Link onClick={handleLogout}>Logout</Link>
                   </>
                 )}
               </div>

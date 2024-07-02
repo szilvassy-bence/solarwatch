@@ -12,7 +12,7 @@ export async function loader(name) {
                 token = storage.token;
             }
         }
-        const res = await fetch(`/api/SolarWatch/GetCity/${name}`, {
+        const res = await fetch(`/api/SolarWatch/cities/${name}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -23,6 +23,7 @@ export async function loader(name) {
                 city: city,
                 status: 200
             }
+            console.log(city);
             return value;
         } else if ( res.status === 404 ) {
             return {status: 404}

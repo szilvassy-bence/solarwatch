@@ -12,6 +12,10 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+Link {
+    color: cadetblue;
+}
+
 a {
     font-weight: 500;
     color: #646cff;
