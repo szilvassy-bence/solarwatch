@@ -25,21 +25,13 @@ AddAuthentication();
 AddIdentity();
 ConfigureSwagger();
 
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<SolarWatchContext>();
-    context.Database.EnsureCreated();
-}
-
-using (var dbScope = app.Services.CreateScope())
-{
-    var dbContext = dbScope.ServiceProvider.GetRequiredService<SolarWatchContext>();
-    if (dbContext.Database.GetPendingMigrations().Any())
-    {
-        dbContext.Database.Migrate();
-    }
+    //context.Database.Migrate();
 }
 
 using (var authSeederScope = app.Services.CreateScope())
@@ -81,7 +73,6 @@ void AddServices()
     builder.Services.AddScoped<IAuthService, AuthService>();
     builder.Services.AddScoped<ITokenService, TokenService>();
     builder.Services.AddScoped<AuthSeeder>();
-
 }
 
 void ConfigureSwagger()
