@@ -8,7 +8,7 @@ export default defineConfig({
       proxy: {
       '/api': {
         // eslint-disable-next-line no-undef
-        target: process.env.EXAMPLE_BACKEND_URL || 'http://localhost:7000',
+        target: process.env.EXAMPLE_BACKEND_URL || 'https://localhost:44376',
         changeOrigin: true,
       },
     },  
