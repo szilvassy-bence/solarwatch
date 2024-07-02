@@ -112,7 +112,7 @@ void AddDbContext()
     var sqlPassword = Environment.GetEnvironmentVariable("SQL_PASSWORD");
     var sqlServerHost = Environment.GetEnvironmentVariable("SW_DB_HOST") ?? "localhost,1433";
 
-    if (string.IsNullOrEmpty(connectionString))
+    /*if (string.IsNullOrEmpty(connectionString))
     {
         throw new InvalidOperationException("Connection string 'SolarWatch' not found in configuration.");
     }
@@ -125,7 +125,7 @@ void AddDbContext()
     if (string.IsNullOrEmpty(sqlServerHost))
     {
         throw new InvalidOperationException("Environment variable 'SW_DB_HOST' not set.");
-    }
+    }*/
 
     var conStrBuilder = new SqlConnectionStringBuilder(connectionString);
     conStrBuilder.Password = sqlPassword;

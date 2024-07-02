@@ -7,5 +7,12 @@
     &lt;TestId&gt;NUnit3x::755CB0D0-3E41-449E-9B35-8E2BF842593F::net8.0::unit_tests.SunriseSunsetJsonProcessorTest.EmptyStringThrowsException&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::755CB0D0-3E41-449E-9B35-8E2BF842593F::net8.0::unit_tests.SunriseSunsetJsonProcessorTest.IncompleteStringThrowsException&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;NUnit3x::755CB0D0-3E41-449E-9B35-8E2BF842593F::net8.0::unit_tests.SunriseSunsetJsonProcessorTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::FE94629D-FBC6-4DB6-AF40-F3CF3F3EA728::net8.0::solar_watch_integration_tests.SolarWatchControllerTest.GetAllCitiesTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::FE94629D-FBC6-4DB6-AF40-F3CF3F3EA728::net8.0::solar_watch_integration_tests.SolarWatchControllerTest.GetCityByNameTestReturnsOKIfAuthAndCityCorrect&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::FE94629D-FBC6-4DB6-AF40-F3CF3F3EA728::net8.0::solar_watch_integration_tests.AuthControllerTest.SeededDataIsPresentInDatabase&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::FE94629D-FBC6-4DB6-AF40-F3CF3F3EA728::net8.0::solar_watch_integration_tests.AuthControllerTest.Register_ReturnsSuccessStatusCode&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::FE94629D-FBC6-4DB6-AF40-F3CF3F3EA728::net8.0::solar_watch_integration_tests.AuthControllerTest.Register_WithInvalidData_ReturnsBadRequest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::FE94629D-FBC6-4DB6-AF40-F3CF3F3EA728::net8.0::solar_watch_integration_tests.AuthControllerTest.Login_ReturnsSuccessStatusCode&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::FE94629D-FBC6-4DB6-AF40-F3CF3F3EA728::net8.0::solar_watch_integration_tests.AuthControllerTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
