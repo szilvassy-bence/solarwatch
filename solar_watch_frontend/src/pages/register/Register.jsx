@@ -21,7 +21,7 @@ export default function Register(){
                 },
                 body: JSON.stringify(registrationData),
             });
-            navigate("/");
+            navigate("/login");
         } catch(e){
             console.error(e);
         }
