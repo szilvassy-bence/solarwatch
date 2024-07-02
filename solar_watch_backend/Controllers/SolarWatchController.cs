@@ -31,7 +31,7 @@ public class SolarWatchController : ControllerBase
         return Ok(await _repository.GetAllCities());
     }
 
-    [HttpGet("GetCity/{city}")]
+    [HttpGet("cities/{city}")]
     public async Task<ActionResult<City>> GetCity(string city)
     {
         try
@@ -53,7 +53,7 @@ public class SolarWatchController : ControllerBase
     }*/
     
     
-    [HttpDelete("DeleteCity/{id}")]
+    [HttpDelete("cities/{id}/delete")]
     public async Task<ActionResult<City>> DeleteCity(int id)
     {
         var city = await _repository.GetCityById(id);
@@ -67,13 +67,13 @@ public class SolarWatchController : ControllerBase
     }
 
     
-    [HttpGet("GetAllSunriseSunsets")]
+    [HttpGet("sunrisesunsets")]
     public async Task<ActionResult<IEnumerable<City>>> GetAllSunInfos()
     {
         return Ok(await _repository.GetAllSunriseSunsets());
     }
 
-    [HttpGet("GetSunInfo/{city}/{date}")]
+    [HttpGet("sunrisesunsets/{city}/{date}")]
     public async Task<ActionResult<SunriseSunset>> GetSunInfoByCityByDate(string city, DateTime date)
     {
         try
@@ -86,7 +86,7 @@ public class SolarWatchController : ControllerBase
         }
     }
 
-    [HttpDelete("SunriseSunset/{id}/Delete")]
+    [HttpDelete("sunrisesunsets/{id}/Delete")]
     public async Task<IActionResult> DeleteSunInfoById(int id)
     {
         var sunInfo = await _repository.GetSunriseSunsetById(id);

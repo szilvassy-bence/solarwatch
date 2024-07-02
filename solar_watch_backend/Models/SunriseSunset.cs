@@ -15,6 +15,9 @@ public class SunriseSunset
 
     // called foreign key property
     public int CityId { get; set; }
+    
+    // navigation property
+    public City City { get; set; }
 
     public override string ToString()
     {

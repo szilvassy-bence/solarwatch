@@ -44,6 +44,7 @@ public class SolarWatchRepository : ISolarWatchRepository
         var dbCity = await _context.Cities
             .Include(c => c.SunriseSunsets)
             .FirstOrDefaultAsync(c => c.Name == city);
+        Console.WriteLine(dbCity);
         if (dbCity is null)
         {
             try
