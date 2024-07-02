@@ -1,6 +1,7 @@
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using solar_watch_backend.Exceptions;
 using solar_watch_backend.Models;
 using solar_watch_backend.Models.Contracts;
 using solar_watch_backend.Services.Repositories;
@@ -18,8 +19,8 @@ public class UserController : ControllerBase
         _userRepository = userRepository;
     }
 
-    [HttpGet("GetAll")]
-    public async Task<ActionResult<IEnumerable<User>>> GetAll()
+    [HttpGet("get-all"), Authorize(Roles = "Admin")]
+    public async Task<ActionResult<IEnumerable<ApplicationUser>>> GetAll()
     {
         try
         {
@@ -32,12 +33,14 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpGet("/name/{userName}")]
-    public async Task<ActionResult<User?>> GetUserByName(string userName)
+    [HttpGet("get"), Authorize(Roles = "ApplicationUser, Admin")]
+    public async Task<ActionResult<ApplicationUser?>> Get()
     {
         try
         {
-            return Ok(await _userRepository.GetByName(userName));
+            var userName = User.FindFirst(ClaimTypes.Name)?.Value;
+            Console.WriteLine(userName);
+            return Ok(await _userRepository.Get(userName));
         }
         catch (Exception e)
         {
@@ -45,39 +48,34 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpGet("/email/{email}")]
-    public async Task<ActionResult<IdentityUser>> GetUserByEmail(string email)
+    [HttpPatch("update"), Authorize(Roles = "ApplicationUser, Admin")]
+    public async Task<ActionResult<UserDataChange>> Update([FromBody] UserDataChange userDataChange)
     {
+        
         try
         {
-            Console.WriteLine(email);
-            return Ok(await _userRepository.GetByEmail(email));
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
+            var userName = User.FindFirst(ClaimTypes.Name)?.Value;
+            return Ok(await _userRepository.Update(userName, userDataChange));
         }
+        
         catch (Exception e)
         {
-            return NotFound(e.Message);
+            return BadRequest(e);
         }
     }
 
-    [HttpPatch("/update/{id}")]
-    public async Task<ActionResult<UserDataChange>> UpdateById(string id, [FromBody] UserDataChange userDataChange)
+    [HttpDelete("delete-user"), Authorize(Roles = "ApplicationUser, Admin")]
+    public async Task<IActionResult> DeleteUser()
     {
         try
         {
-            return Ok(await _userRepository.UpdateById(id, userDataChange));
-        }
-        catch (Exception e)
-        {
-            return NotFound(e.Message);
-        }
-    }
-
-    [HttpDelete("/delete/{id}")]
-    public async Task<IActionResult> DeleteById(string id)
-    {
-        try
-        {
-            await _userRepository.DeleteUserById(id);
+            var userName = User.FindFirst(ClaimTypes.Name)?.Value;
+            await _userRepository.DeleteUser(userName);
             return NoContent();
         }
         catch (Exception e)
@@ -87,12 +85,28 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpPatch("/update-password/{id}")]
-    public async Task<ActionResult<UserDataChange>> UpdatePasswordById(string id, [FromBody] UserPasswordChange userPasswordChange)
+    [HttpPatch("update-password"), Authorize(Roles = "ApplicationUser, Admin")]
+    public async Task<ActionResult<UserDataChange>> UpdatePassword(UserPasswordChange userPasswordChange)
     {
         try
         {
-            return Ok(await _userRepository.UpdatePasswordById(id, userPasswordChange));
+            var userName = User.FindFirst(ClaimTypes.Name)?.Value;
+            return Ok(await _userRepository.UpdatePassword(userName, userPasswordChange));
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return NotFound(e.Message);
+        }
+    }
+
+    [HttpGet("favorites"), Authorize(Roles = "ApplicationUser, Admin")]
+    public async Task<ActionResult<IEnumerable<City>>> GetFavorites()
+    {
+        try
+        {
+            var userName = User.FindFirst(ClaimTypes.Name)?.Value;
+            return Ok(await _userRepository.GetFavoriteCities(userName));
         }
         catch (Exception e)
         {
@@ -101,4 +115,54 @@ public class UserController : ControllerBase
         }
     }
     
+    
+    [HttpPost("{cityId}/add-city"), Authorize(Roles = "ApplicationUser, Admin")]
+    public async Task<ActionResult> AddFavorite(int cityId)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            var userName = User.FindFirst(ClaimTypes.Name)?.Value;
+            var city = await _userRepository.AddFavorite(userName, cityId);
+            return Ok(city);
+        }
+        catch (CityAlreadyInFavoritesException e)
+        {
+            return BadRequest(new { message = e.Message });
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return NotFound(e.Message);
+        }
+    }
+
+    [HttpDelete("{cityId}/delete-city"), Authorize(Roles = "ApplicationUser, Admin")]
+    public async Task<ActionResult> DeleteCity(int cityId)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            var userName = User.FindFirst(ClaimTypes.Name)?.Value;
+            await _userRepository.DeleteFavorite(userName, cityId);
+            return NoContent();
+        }
+        catch (CityIsNotInFavoritesException e)
+        {
+            return BadRequest(new { message = e.Message });
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return NotFound(e.Message);
+        }
+    }
 }
