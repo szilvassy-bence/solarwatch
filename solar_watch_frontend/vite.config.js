@@ -5,20 +5,20 @@ import react from '@vitejs/plugin-react-swc'
 export default defineConfig({
   plugins: [react()],
   server: {
-     /* proxy: {
+      proxy: {
       '/api': {
         // eslint-disable-next-line no-undef
         target: process.env.EXAMPLE_BACKEND_URL || 'http://localhost:7000',
         changeOrigin: true,
       },
-    },  */
-    proxy: {
+    },  
+    /*proxy: {
       "/api": {
         target: "https://localhost:44376",
         changeOrigin: true,
         secure: false,
         ws: true,
       },
-    },
+    },*/
   },
 });
