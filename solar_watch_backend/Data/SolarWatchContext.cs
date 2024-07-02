@@ -13,7 +13,7 @@ public class SolarWatchContext : IdentityDbContext<IdentityUser, IdentityRole, s
 
     public DbSet<City> Cities { get; set; }
     public DbSet<SunriseSunset> SunriseSunsets { get; set; }
-    public DbSet<User> Users { get; set; }
+    public DbSet<ApplicationUser> ApplicationUsers { get; set; }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -22,6 +22,22 @@ public class SolarWatchContext : IdentityDbContext<IdentityUser, IdentityRole, s
         modelBuilder.Entity<City>()
             .HasIndex(c => c.Name)
             .IsUnique();
+        
+        modelBuilder.Entity<City>()
+            .HasMany(c => c.SunriseSunsets)
+            .WithOne(ss => ss.City)
+            .HasForeignKey(ss => ss.CityId);
+        
+        modelBuilder.Entity<ApplicationUser>()
+            .HasMany(u => u.FavoriteCities)
+            .WithMany();
+
+        modelBuilder.Entity<ApplicationUser>()
+            .HasOne(au => au.IdentityUser)
+            .WithOne()
+            .HasForeignKey<ApplicationUser>(au => au.IdentityUserId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
         modelBuilder.Entity<City>()
             .HasData(
                 new City
@@ -39,25 +55,23 @@ public class SolarWatchContext : IdentityDbContext<IdentityUser, IdentityRole, s
                     State = "Ile-de-France"
                 }
             );
-
-
-        modelBuilder.Entity<User>()
+        
+        modelBuilder.Entity<SunriseSunset>()
             .HasData(
-                new User
+                new SunriseSunset
                 {
                     Id = 1,
-                    Email = "b@b",
-                    UserName = "bence"
-                }, new User
+                    Sunrise = new DateTime(2023, 6, 21, 4, 43, 0),
+                    Sunset = new DateTime(2023, 6, 21, 21, 21, 0),
+                    CityId = 1
+                },
+                new SunriseSunset
                 {
                     Id = 2,
-                    Email = "c@c",
-                    UserName = "csilla"
-                }, new User
-                {
-                    Id = 3,
-                    Email = "a@a",
-                    UserName = "arwen"
-                });
+                    Sunrise = new DateTime(2023, 6, 21, 5, 0, 0),
+                    Sunset = new DateTime(2023, 6, 21, 20, 50, 0),
+                    CityId = 2
+                }
+            );
     }
 }
