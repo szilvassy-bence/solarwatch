@@ -15,7 +15,7 @@ public class City
 
     [StringLength(50)] public string? State { get; set; }
 
-    public ICollection<SunriseSunset> SunriseSunsets { get; set; }
+    public ICollection<SunriseSunset> SunriseSunsets { get; set; } = new List<SunriseSunset>();
 
     public override string ToString()
     {
