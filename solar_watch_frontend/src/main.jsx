@@ -11,6 +11,7 @@ import Home from "./pages/home";
 import Profile from "./pages/profile";
 import City, { loader as cityLoader } from "./pages/city";
 import Search, {loader as searchLoader} from './pages/Search';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 
 const router = createBrowserRouter([
     {
@@ -43,7 +44,10 @@ const router = createBrowserRouter([
             },
             {
                 path: "/profile",
-                element: <Profile/>
+                element: 
+                    <ProtectedRoute>
+                        <Profile/>
+                    </ProtectedRoute>
             },
             {
                 path: "/search/:searchTerm",
