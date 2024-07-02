@@ -2,7 +2,9 @@
 SolarWatch is a full-stack web application project that provides sunrise and sunset times for a given city on a given date in UTC Time, handles user accounts and authorization.
 
 # Table of Contents
-<!-- toc -->
+1. [About](#about)
+2. [How to use](#how-to-use)
+  - [Requirements](##requirements)
 
 # About
 SolarWatch is a full-stack web application project that provides sunrise and sunset times for a given city/place on a given date in UTC Time. The backend is an ASP.NET Web API that is connected to a Microsoft SQL database. The frontend uses React with the help of CSS styling.
@@ -21,7 +23,7 @@ The project is dockerized, you should build and run the docker-compose.yml file 
 
 This section helps to set up the project locally and gives instructions about how to run it.
 
-## Prerequisites
+## Requirements
 The project uses OpenWeather's API. The API proides 1000 API calls for free, but for every call we need an API key. Get a free API key at https://openweathermap.org/ by registering.
 
 This section helps to set up the project locally and gives instructions about how to run it.
@@ -31,4 +33,6 @@ The project uses OpenWeather's API. The API proides 1000 API calls for free, but
 
 Clone the repo
 
-```git clone https://github.com/szillas/SolarWatch.git](https://github.com/szilvassy-bence/solarwatch.git
+\`\`\`
+git clone https://github.com/szillas/SolarWatch.git](https://github.com/szilvassy-bence/solarwatch.git
+\`\`\`
