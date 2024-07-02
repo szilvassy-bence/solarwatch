@@ -28,11 +28,11 @@ The project uses OpenWeather's API. The API proides 1000 API calls for free, but
 
 This section helps to set up the project locally and gives instructions about how to run it.
 
-Prerequisites
+Further notes
 The project uses OpenWeather's API. The API proides 1000 API calls for free, but for every call we need an API key. Get a free API key at https://openweathermap.org/ by registering.
 
-Clone the repo
+1. Clone the repo
 
-\`\`\`
-git clone https://github.com/szillas/SolarWatch.git](https://github.com/szilvassy-bence/solarwatch.git
-\`\`\`
+```
+git clone https://github.com/szilvassy-bence/solarwatch.git
+```
