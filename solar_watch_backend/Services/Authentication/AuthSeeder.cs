@@ -1,4 +1,7 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using solar_watch_backend.Data;
+using solar_watch_backend.Models;
 
 namespace solar_watch_backend.Services.Authentication;
 
@@ -7,12 +10,14 @@ public class AuthSeeder
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly UserManager<IdentityUser> _userManager;
     private readonly ILogger<AuthSeeder> _logger;
+    private readonly SolarWatchContext _context;
 
-    public AuthSeeder(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager, ILogger<AuthSeeder> logger)
+    public AuthSeeder(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager, ILogger<AuthSeeder> logger, SolarWatchContext context)
     {
         _roleManager = roleManager;
         _userManager = userManager;
         _logger = logger;
+        _context = context;
     }
 
     public void AddRoles()
@@ -27,16 +32,16 @@ public class AuthSeeder
         catch (Exception e)
         {
             Console.WriteLine(e);
-            _logger.LogError("error happened: " + e);
+            _logger.LogError("Error during adding roles: " + e);
             throw;
         }
     }
 
     private async Task CreateUserRole(RoleManager<IdentityRole> roleManager)
     {
-        if (!await roleManager.RoleExistsAsync("User"))
+        if (!await roleManager.RoleExistsAsync("ApplicationUser"))
         {
-            await roleManager.CreateAsync(new IdentityRole("User"));
+            await roleManager.CreateAsync(new IdentityRole("ApplicationUser"));
         }
     }
 
