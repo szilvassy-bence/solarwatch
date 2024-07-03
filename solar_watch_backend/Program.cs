@@ -182,8 +182,8 @@ void AddAuthentication()
 
 void AddEnvironmentVariables()
 {
-    var root = Directory.GetCurrentDirectory();
-    var dotenv = Path.Combine(root, ".env");
+    var parent = Directory.GetParent(Directory.GetCurrentDirectory()).FullName;
+    var dotenv = Path.Combine(parent, ".env");
     Console.WriteLine(dotenv);
     DotEnv.Load(dotenv);
 
