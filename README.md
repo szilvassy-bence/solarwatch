@@ -17,7 +17,7 @@ The application's features are only accessible through registration. Authenticat
 For getting sunrise/sunset information, the application works with 3 external APIs:
 - Coordinates are received from https://openweathermap.org/api .
 - Sunrise/sunset information for a given coordinate is received from https://sunrise-sunset.org/ .
-- Autoimplementing city name searchhttps://developers.amadeus.com/self-service/category/destination-experiences/api-doc/city-search/api-reference .
+- Autoimplementing city name search https://developers.amadeus.com/self-service/category/destination-experiences/api-doc/city-search/api-reference .
 
 # How to use
 The project is dockerized, you should build and run the docker-compose.yml file to start use the application.
