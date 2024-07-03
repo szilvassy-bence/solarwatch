@@ -13,10 +13,12 @@ namespace solar_watch_backend.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IUserRepository _userRepository;
+    private readonly ILogger<UserController> _logger;
 
-    public UserController(IUserRepository userRepository)
+    public UserController(IUserRepository userRepository, ILogger<UserController> logger)
     {
         _userRepository = userRepository;
+        _logger = logger;
     }
 
     [HttpGet("get-all"), Authorize(Roles = "Admin")]
@@ -75,6 +77,8 @@ public class UserController : ControllerBase
         try
         {
             var userName = User.FindFirst(ClaimTypes.Name)?.Value;
+            _logger.LogInformation("Retrieved userName: {userName}", userName);
+            if (userName == null) return NotFound();
             await _userRepository.DeleteUser(userName);
             return NoContent();
         }

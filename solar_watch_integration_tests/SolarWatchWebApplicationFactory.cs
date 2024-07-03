@@ -4,10 +4,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Moq;
 using solar_watch_backend.Data;
-using solar_watch_backend.Services.LatLngProvider;
-using solar_watch_backend.Services.SunriseSunsetProvider;
 using solar_watch_integration_tests.helpers;
 
 namespace solar_watch_integration_tests;
@@ -45,7 +42,7 @@ public class SolarWatchWebApplicationFactory : WebApplicationFactory<Program>
             
             var seeder = scope.ServiceProvider.GetRequiredService<Seeder>();
             seeder.ReinitializeSolarWatchDbForTests();
-            seeder.ReinitializeIdentityUserDbForTests();
+            seeder.ReinitializeIdentityUserDbForTests().Wait();
         });
 
         builder.UseEnvironment("Development");

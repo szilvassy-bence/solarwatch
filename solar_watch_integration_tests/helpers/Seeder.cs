@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Xunit.Abstractions;
 
 namespace solar_watch_integration_tests.helpers;
@@ -55,11 +56,12 @@ public class Seeder
         };
     }
 
-    public void ReinitializeIdentityUserDbForTests()
+    public async Task ReinitializeIdentityUserDbForTests()
     {
         _solarWatchContext.Users.RemoveRange(_solarWatchContext.Users);
         _solarWatchContext.Roles.RemoveRange(_solarWatchContext.Roles);
-        InitializeIdentityUserDbForTests();
+        _solarWatchContext.ApplicationUsers.RemoveRange(_solarWatchContext.ApplicationUsers);
+        await InitializeIdentityUserDbForTests();
     }
 
     public async Task InitializeIdentityUserDbForTests()
@@ -69,14 +71,24 @@ public class Seeder
         for (int i = 0; i < roles.Count; i++)
         {
             await _roleManager.CreateAsync(roles[i]);
-            var identityResult = await _userManager.CreateAsync(users[0], $"password{i + 1}");
+            var identityResult = await _userManager.CreateAsync(users[i], "password");
             if (identityResult.Succeeded) await _userManager.AddToRoleAsync(users[i], roles[i].Name);
         }
+
+        var city = await _solarWatchContext.Cities.FirstOrDefaultAsync(c => c.Id == 1);
+        if (city is null) throw new Exception();
 
         ApplicationUser applicationUser = new ApplicationUser
         {
             IdentityUser = users[1]
         };
+        applicationUser.FavoriteCities.Add(city);
+        
+        _solarWatchContext.ApplicationUsers.Add(applicationUser);
+        await _solarWatchContext.SaveChangesAsync();
+        
+        _solarWatchContext.Entry(applicationUser).State = EntityState.Detached;
+        _solarWatchContext.Entry(users[1]).State = EntityState.Detached;
     }
 
     public List<IdentityRole> AddRoles()
@@ -92,7 +104,7 @@ public class Seeder
     {
         return new List<IdentityUser>()
         {
-            new IdentityUser() { UserName = "admin", Email = "admin@user" },
+            new IdentityUser() { UserName = "admin", Email = "admin@admin" },
             new IdentityUser() { UserName = "user", Email = "user@user" },
         };
     }

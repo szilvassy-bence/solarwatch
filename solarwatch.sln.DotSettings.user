@@ -22,5 +22,20 @@
     &lt;TestId&gt;xUnit::FE94629D-FBC6-4DB6-AF40-F3CF3F3EA728::net8.0::solar_watch_integration_tests.SolarWatchControllerTest.DeleteSunInfoReturnsNoContentIfSuccessful&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::FE94629D-FBC6-4DB6-AF40-F3CF3F3EA728::net8.0::solar_watch_integration_tests.SolarWatchControllerTest.DeleteSunInfoReturnsNotFoundIfSunInfoNotFound&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::FE94629D-FBC6-4DB6-AF40-F3CF3F3EA728::net8.0::solar_watch_integration_tests.SolarWatchControllerTest.GetAllSunriseSunsetsReturnsOk&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::FE94629D-FBC6-4DB6-AF40-F3CF3F3EA728::net8.0::solar_watch_integration_tests.SolarWatchControllerTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::FE94629D-FBC6-4DB6-AF40-F3CF3F3EA728::net8.0::solar_watch_integration_tests.UserControllerTest.GetAllReturnsOkIfAdmin&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::FE94629D-FBC6-4DB6-AF40-F3CF3F3EA728::net8.0::solar_watch_integration_tests.UserControllerTest.GetAllReturnsUnauthorizedIfNotLoggedIn&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::FE94629D-FBC6-4DB6-AF40-F3CF3F3EA728::net8.0::solar_watch_integration_tests.UserControllerTest.GetAllReturnsForbiddenIfUser&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::FE94629D-FBC6-4DB6-AF40-F3CF3F3EA728::net8.0::solar_watch_integration_tests.UserControllerTest.GetReturnsOkIfLoggedIn&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::FE94629D-FBC6-4DB6-AF40-F3CF3F3EA728::net8.0::solar_watch_integration_tests.UserControllerTest.UpdateReturnsOkIfSuccessful&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::FE94629D-FBC6-4DB6-AF40-F3CF3F3EA728::net8.0::solar_watch_integration_tests.UserControllerTest.UpdateReturnsBadRequestIfUserDataChangeIsNotCorrect&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::FE94629D-FBC6-4DB6-AF40-F3CF3F3EA728::net8.0::solar_watch_integration_tests.UserControllerTest.DeleteReturnsNoContentIfSuccessful&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::FE94629D-FBC6-4DB6-AF40-F3CF3F3EA728::net8.0::solar_watch_integration_tests.UserControllerTest.UpdatePasswordReturnsNoContentIfSuccessful&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::FE94629D-FBC6-4DB6-AF40-F3CF3F3EA728::net8.0::solar_watch_integration_tests.UserControllerTest.UpdatePasswordReturnsNotFoundIfNotSuccessful&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::FE94629D-FBC6-4DB6-AF40-F3CF3F3EA728::net8.0::solar_watch_integration_tests.UserControllerTest.FavoritesReturnsOk&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::FE94629D-FBC6-4DB6-AF40-F3CF3F3EA728::net8.0::solar_watch_integration_tests.UserControllerTest.AddFavoritesReturnsOk&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::FE94629D-FBC6-4DB6-AF40-F3CF3F3EA728::net8.0::solar_watch_integration_tests.UserControllerTest.DeleteFavoritesReturnsOk&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::FE94629D-FBC6-4DB6-AF40-F3CF3F3EA728::net8.0::solar_watch_integration_tests.UserControllerTest.DeleteFavoritesReturnsBadRequestIfNotInFavorites&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::FE94629D-FBC6-4DB6-AF40-F3CF3F3EA728::net8.0::solar_watch_integration_tests.UserControllerTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
