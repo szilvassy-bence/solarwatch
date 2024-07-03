@@ -1,3 +1,5 @@
+using Xunit.Abstractions;
+
 namespace solar_watch_integration_tests.helpers;
 using solar_watch_backend.Data;
 using solar_watch_backend.Models;
@@ -9,7 +11,9 @@ public class Seeder
     private readonly UserManager<IdentityUser> _userManager;
     private readonly SolarWatchContext _solarWatchContext;
 
-    public Seeder(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager,
+    public Seeder(
+        RoleManager<IdentityRole> roleManager, 
+        UserManager<IdentityUser> userManager,
         SolarWatchContext solarWatchContext)
     {
         _roleManager = roleManager;
@@ -35,9 +39,9 @@ public class Seeder
     {
         return new List<City>()
         {
-            new City() { Country = "HU", Latitude = 100, Longitude = 100, Name = "Miskolc" },
-            new City() { Country = "HU", Latitude = 123, Longitude = 123, Name = "Debrecen" },
-            new City() { Country = "HU", Latitude = 200, Longitude = 200, Name = "Budapest" },
+            new City() { Id = 1, Country = "HU", Latitude = 100, Longitude = 100, Name = "Miskolc" },
+            new City() { Id = 2, Country = "HU", Latitude = 123, Longitude = 123, Name = "Debrecen" },
+            new City() { Id = 3, Country = "HU", Latitude = 200, Longitude = 200, Name = "Budapest" },
         };
     }
 
@@ -45,9 +49,9 @@ public class Seeder
     {
         return new List<SunriseSunset>()
         {
-            new SunriseSunset() { CityId = 1, Sunrise = new DateTime(2024, 01, 01), Sunset = new DateTime(2024, 01, 01) },
-            new SunriseSunset() { CityId = 2, Sunrise = new DateTime(2024, 02, 01), Sunset = new DateTime(2024, 02, 01) },
-            new SunriseSunset() { CityId = 3, Sunrise = new DateTime(2024, 03, 01), Sunset = new DateTime(2024, 03, 01) },
+            new SunriseSunset() { Id = 1, CityId = 1, Sunrise = new DateTime(2024, 01, 01), Sunset = new DateTime(2024, 01, 01) },
+            new SunriseSunset() { Id = 2, CityId = 2, Sunrise = new DateTime(2024, 02, 01), Sunset = new DateTime(2024, 02, 01) },
+            new SunriseSunset() { Id = 3, CityId = 3, Sunrise = new DateTime(2024, 03, 01), Sunset = new DateTime(2024, 03, 01) },
         };
     }
 
@@ -68,6 +72,11 @@ public class Seeder
             var identityResult = await _userManager.CreateAsync(users[0], $"password{i + 1}");
             if (identityResult.Succeeded) await _userManager.AddToRoleAsync(users[i], roles[i].Name);
         }
+
+        ApplicationUser applicationUser = new ApplicationUser
+        {
+            IdentityUser = users[1]
+        };
     }
 
     public List<IdentityRole> AddRoles()
@@ -76,7 +85,6 @@ public class Seeder
         {
             new IdentityRole("Admin"),
             new IdentityRole("ApplicationUser"),
-            new IdentityRole("Editor"),
         };
     }
 
@@ -86,7 +94,6 @@ public class Seeder
         {
             new IdentityUser() { UserName = "admin", Email = "admin@user" },
             new IdentityUser() { UserName = "user", Email = "user@user" },
-            new IdentityUser() { UserName = "editor", Email = "editor@user" },
         };
     }
 
