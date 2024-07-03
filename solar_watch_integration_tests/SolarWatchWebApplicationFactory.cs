@@ -14,9 +14,6 @@ namespace solar_watch_integration_tests;
 
 public class SolarWatchWebApplicationFactory : WebApplicationFactory<Program>
 {
-    public Mock<ILatLngProvider> LatLngProviderMock { get; } = new();
-    public Mock<ISunriseSunsetDataProvider> SunInfoDataProviderMock { get; } = new();
-    
     // the original config runs before this
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {

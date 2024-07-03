@@ -14,21 +14,17 @@ using Xunit.Abstractions;
 
 namespace solar_watch_integration_tests;
 
-public class SolarWatchControllerTest
+public class SolarWatchControllerTest : IClassFixture<SolarWatchWebApplicationFactory>
 {
     private readonly ITestOutputHelper _outputHelper;
     private readonly HttpClient _httpClient;
-    private readonly Mock<ILatLngProvider> _latLngProviderMock;
-    private readonly Mock<ISunriseSunsetDataProvider> _sunInfoDataProvider;
-
+    
 
     public SolarWatchControllerTest(ITestOutputHelper outputHelper)
     {
         SolarWatchWebApplicationFactory _solarWatchFactory = new SolarWatchWebApplicationFactory();
         _outputHelper = outputHelper;
         _httpClient = _solarWatchFactory.CreateClient();
-        _latLngProviderMock = _solarWatchFactory.LatLngProviderMock;
-        _sunInfoDataProvider = _solarWatchFactory.SunInfoDataProviderMock;
     }
 
     [Fact]
