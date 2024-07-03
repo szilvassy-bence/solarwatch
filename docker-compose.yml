@@ -8,11 +8,11 @@ services:
     depends_on: 
       - db
     ports:
-      - "5000:80"
+      - 5000:80
     environment:
       - SW_DB_HOST=db,1433
     env_file:
-      - ./solar_watch_backend/.env
+      - .env
 
   frontend:
     build:
@@ -20,20 +20,19 @@ services:
     image: sw_frontend_img
     container_name: sw_frontend_container
     environment:
-      - EXAMPLE_BACKEND_URL=http://backend:80
+      - VITE_BACKEND_URL=http://backend:80
     ports:
-      - "5173:5173"
+      - 5173:5173
 
   db:
     image: mcr.microsoft.com/mssql/server
-    restart: always
     container_name: sw_db_container
     volumes:
       - mssql_data:/var/opt/mssql
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=${SQL_PASSWORD}
+      - MSSQL_SA_PASSWORD=${SQL_PASSWORD}
     ports:
-      - "1433:1433"
+      - 1433:1433
 volumes:
   mssql_data:
