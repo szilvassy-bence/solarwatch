@@ -14,6 +14,6 @@ public interface ISolarWatchRepository
     Task<City?> GetCityById(int id);
     Task<IEnumerable<City>> SearchCities(string searchTerm);
     Task DeleteCity(City city);
-    Task<SunriseSunset> GetSunriseSunsetById(int id);
+    Task<SunriseSunset?> GetSunriseSunsetById(int id);
     Task DeleteSunriseSunset(SunriseSunset sunriseSunset);
 }

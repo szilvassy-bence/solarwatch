@@ -120,7 +120,7 @@ public class SolarWatchRepository : ISolarWatchRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<SunriseSunset> GetSunriseSunsetById(int id)
+    public async Task<SunriseSunset?> GetSunriseSunsetById(int id)
     {
         return await _context.SunriseSunsets.FindAsync(id);
     }
