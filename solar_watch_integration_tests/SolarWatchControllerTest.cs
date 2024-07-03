@@ -50,7 +50,7 @@ public class SolarWatchControllerTest : IClassFixture<SolarWatchWebApplicationFa
     {
         // Arrange
         // Act
-        var cityResponse = await _httpClient.GetAsync($"/api/SolarWatch/cities/Budapest");
+        var cityResponse = await _httpClient.GetAsync($"/api/SolarWatch/cities/London");
 
         // Assert
         cityResponse.EnsureSuccessStatusCode();

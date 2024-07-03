@@ -14,6 +14,9 @@ public class SolarWatchWebApplicationFactory : WebApplicationFactory<Program>
     // the original config runs before this
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
+        System.Environment.SetEnvironmentVariable("SQL_PASSWORD", "yourStrong(!)Password");
+        System.Environment.SetEnvironmentVariable("ISSUER_SIGNING_KEY", "!SomethingSecret!!SomethingSecret!");
+        System.Environment.SetEnvironmentVariable("OPEN_WEATHER_API_KEY", "734d904cb1e70969120b4f75e9fe980a");
         builder.ConfigureTestServices(services =>
         {
             var dbContextDescriptor = services.SingleOrDefault(
