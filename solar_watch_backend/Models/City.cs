@@ -19,6 +19,6 @@ public class City
 
     public override string ToString()
     {
-        return $"{nameof(Name)}: {Name}, {nameof(Country)}: {Country}";
+        return $"{nameof(Id)}: {Id}, {nameof(Name)}: {Name}, {nameof(Country)}: {Country}";
     }
 }
